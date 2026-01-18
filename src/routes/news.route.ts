@@ -1,0 +1,27 @@
+import { Router, Request, Response } from "express";
+import { fetchUser } from "../middleware";
+import { AuthenticatedNewsRequest } from "../types/news";
+import { newsValidationRules } from "../middleware/verify.validation";
+import { validationResult } from "express-validator";
+import { createNewNewsArticleController } from "../controllers/news.controller";
+
+const router = Router();
+
+// GET /verify - Basic verification endpoint
+router.get("/", (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: "News endpoint is working",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+//create a draft of the new news
+router.post(
+  "/create-draft",
+  // fetchUser,
+  newsValidationRules,
+  createNewNewsArticleController
+);
+
+export default router;
