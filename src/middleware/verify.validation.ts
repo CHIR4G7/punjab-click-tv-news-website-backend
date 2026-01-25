@@ -30,7 +30,7 @@ export const newsValidationRules = [
     .trim()
     .notEmpty()
     .withMessage('Title is required')
-    .isLength({ min: 10, max: 200 })
+    .isLength({ min: 10})
     .withMessage('Title must be between 10 and 200 characters')
     .escape(),
 
@@ -45,7 +45,7 @@ export const newsValidationRules = [
     .trim()
     .notEmpty()
     .withMessage('Summary is required')
-    .isLength({ min: 20, max: 500 })
+    .isLength({ min: 20})
     .withMessage('Summary must be between 20 and 500 characters')
     .escape(),
 

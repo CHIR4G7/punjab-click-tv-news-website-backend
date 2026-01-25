@@ -17,3 +17,16 @@ export type News = {
   coverPageImg: string;
   imageUrls: string[];
 };
+
+
+export interface ArticleFilters {
+  category?: string;
+  region?: string;
+  search?: string;
+  published?: boolean;
+  drafted?:boolean;
+  fromDate?: string;
+  toDate?: string;
+  cursor?: string;
+  limit?: number;
+}

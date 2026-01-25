@@ -58,4 +58,6 @@ model Article {
   // publishedAt DateTime?
   // createdAt   DateTime  @default(now())
   // updatedAt   DateTime  @updatedAt
+  @@index([publishedAt, id])
+  @@unique([createdAt, id])
 }
