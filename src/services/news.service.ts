@@ -46,3 +46,22 @@ export const publishArticleService = async (id: string, data: any) => {
 
   return updatedArticle
 };
+
+export const getArticleService = async (id:string)=>{
+  const article = await prisma.article.findUnique({
+    where:{
+      id:id
+    }
+  })
+  return article
+}
+
+export const editArticleService = async (id:string,payload:any)=>{
+  const article = await prisma.article.update({
+    where:{
+      id:id
+    },
+    data:payload
+  })
+  return article;
+}

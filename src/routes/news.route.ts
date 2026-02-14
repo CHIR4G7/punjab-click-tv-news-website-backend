@@ -3,7 +3,7 @@ import { fetchUser } from "../middleware";
 import { AuthenticatedNewsRequest } from "../types/news";
 import { newsValidationRules } from "../middleware/verify.validation";
 import { validationResult } from "express-validator";
-import { createNewNewsArticleController, getAllNewsForAdminPaginatedController, getCustomNewsController, publishNewsController } from "../controllers/news.controller";
+import { createNewNewsArticleController, editArticleController, getAllNewsForAdminPaginatedController, getArticleController, getCustomNewsController, publishNewsController } from "../controllers/news.controller";
 
 const router = Router();
 
@@ -39,6 +39,16 @@ router.put(
   "/publish-article",
   //fetchUser,
   publishNewsController
+)
+
+router.get(
+  "/article",
+  getArticleController
+)
+
+router.put(
+  '/edit-article',
+  editArticleController
 )
 
 export default router;

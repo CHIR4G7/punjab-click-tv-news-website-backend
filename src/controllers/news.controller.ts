@@ -3,6 +3,8 @@ import { ArticleFilters, AuthenticatedNewsRequest } from "../types/news";
 import { Request, Response } from "express";
 import {
   createNewNewsArticleService,
+  editArticleService,
+  getArticleService,
   getArticlesPaginatedService,
   publishArticleService,
 } from "../services/news.service";
@@ -45,10 +47,19 @@ export const getAllNewsForAdminPaginatedController = async (
   response: Response,
 ) => {
   try {
-    const limit = Number(request.query.limit) || 2;
+    const limit = Number(request.query.limit) || 10;
     const cursor = request.query.cursor as string | undefined;
+    const mode = request.query.mode as string | undefined
     console.log("Admin Limit:", limit);
-    const query = await dynamicQueryBuilder({ limit, cursor });
+    console.log("Mode : ",mode)
+    let query = null;
+
+    if(mode=="published"){
+      query = await dynamicQueryBuilder({ limit, cursor,published:true });
+    }else{
+      query = await dynamicQueryBuilder({ limit, cursor,drafted:true });
+    }
+    // const query = await dynamicQueryBuilder({ limit, cursor });
     const articles = await getArticlesPaginatedService(query);
 
     const data = {
@@ -161,6 +172,65 @@ export const publishNewsController = async (
         message: "Article Not Drafted or already Published!",
       });
     }
+    return response.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+export const getArticleController = async (
+  request: Request,
+  response: Response,
+) => {
+  try {
+    const { id } = request.query;
+
+    if (!id) {
+      return response.json(400).json({
+        success: false,
+        message: "URL Id Invalid!",
+      });
+    }
+
+    const article = await getArticleService(id as string);
+    return response.status(200).json({
+      success: true,
+      message: "Article fetched successfully",
+      data: article,
+    });
+  } catch (error) {
+    console.log("/article error:", error);
+    return response.status(400).json({
+      success: false,
+      message: "Internal Server Error!",
+    });
+  }
+};
+
+export const editArticleController = async (
+  request: AuthenticatedNewsRequest,
+  response: Response,
+) => {
+  try {
+    const { data } = request.body;
+
+    if (!data) {
+      return response.status(400).json({
+        success: false,
+        message: "No article found!",
+      });
+    }
+
+    const updatedArticle = await editArticleService(data?.id, data);
+
+    return response.status(200).json({
+      success: true,
+      message: "Article Updated Successfully!",
+      data: updatedArticle,
+    });
+  } catch (error: any) {
+    console.log("/edit-news error : ", error);
     return response.status(500).json({
       success: false,
       message: "Internal Server Error",

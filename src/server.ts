@@ -18,7 +18,7 @@ app.use(cookieParser()); // Add this line
 app.use(metricsMiddleware as unknown as RequestHandler);
 
 app.use(cors({
-  origin: "http://localhost:8080",
+  origin: ["http://localhost:8080","http://192.168.1.100:8080","*"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
