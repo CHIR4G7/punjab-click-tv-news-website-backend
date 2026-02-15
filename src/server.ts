@@ -11,14 +11,18 @@ import cors from 'cors';
 import { imageUploadController } from './controllers/imageUpload.controller';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
+
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",")
+  : [];
 
 app.use(json());
 app.use(cookieParser()); // Add this line
 app.use(metricsMiddleware as unknown as RequestHandler);
 
 app.use(cors({
-  origin: ["http://localhost:8080","http://192.168.1.100:8080","*"],
+  origin: allowedOrigins,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -48,6 +52,6 @@ app.use('/api/v1/news',newsRoutes)
 //IMAGEKIT SIGNATURE ROUTE
 app.use('/api/v1/imagekit-auth',imageUploadRoute)
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
