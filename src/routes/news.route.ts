@@ -26,7 +26,7 @@ router.post(
 
 router.get(
   "/admin-news",
-  //fetchUser,
+  fetchUser,
   getAllNewsForAdminPaginatedController
 )
 
@@ -37,7 +37,7 @@ router.get(
 
 router.put(
   "/publish-article",
-  //fetchUser,
+  fetchUser,
   publishNewsController
 )
 

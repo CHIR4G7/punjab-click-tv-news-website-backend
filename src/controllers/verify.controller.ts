@@ -60,7 +60,7 @@ export const loginAdminController = async (
     const { existingUser, token } = await loginAdminService(username, password);
 
     response.cookie("access_token", token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
