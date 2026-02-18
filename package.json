@@ -6,12 +6,12 @@
   "author": "",
   "type": "commonjs",
   "main": "src/server.ts",
-  "scripts": {
-    "start": "ts-node src/server.ts",
-    "build": "tsc",
-    "dev": "nodemon --exec ts-node src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "dev": "nodemon --exec ts-node src/app.ts",
+  "build": "tsc",
+  "start": "node dist/app.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   "dependencies": {
     "@prisma/client": "6.19",
     "@types/bcrypt": "^6.0.0",
